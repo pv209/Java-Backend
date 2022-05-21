@@ -1,5 +1,8 @@
 package agrotisTeste.agrotisTeste.Model;
 
+import agrotisTeste.agrotisTeste.Repository.LabRepo;
+import agrotisTeste.agrotisTeste.Repository.PropRepo;
+
 public class Formulario {
 	private String nomeUsuario;
 	private String nomeProp;
@@ -40,13 +43,17 @@ public class Formulario {
 		return new infoPropriedade(nomeProp);
 		
 	}
-	public User converterUser() {
-		// TODO Auto-generated method stub
-		return new User(nomeUsuario,cnpj,observacao);
+	public User convertUser(PropRepo infoRepo, LabRepo labRepo){
+		infoPropriedade prop = infoRepo.findByNome(nomeProp);
+		Laboratorio lab =  labRepo.findBynome(nomeLab);
+		return new User(nomeUsuario,cnpj,prop,lab,observacao);
 	}
 	public Laboratorio covertLab() {
-		// TODO Auto-generated method stub
 		return new Laboratorio(nomeLab);
+	}
+	public Formulario addNewUser(Formulario form) {
+		return form;
+		
 	}
 
 }

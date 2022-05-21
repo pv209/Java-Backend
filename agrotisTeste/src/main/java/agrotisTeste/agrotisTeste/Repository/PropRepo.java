@@ -6,4 +6,6 @@ import agrotisTeste.agrotisTeste.Model.infoPropriedade;
 
 public interface PropRepo extends JpaRepository<infoPropriedade,Long> {
 
+	infoPropriedade findByNome (String nome);
+
 }

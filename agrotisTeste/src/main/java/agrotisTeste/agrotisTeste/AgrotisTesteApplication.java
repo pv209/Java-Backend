@@ -7,7 +7,8 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 
 
-@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
+@SpringBootApplication(scanBasePackages={
+"agrotisTeste.agrotisTeste", "agrotisTeste.agrotisTeste.Controller","agrotisTeste.agrotisTeste.Model","agrotisTeste.agrotisTeste.Repository"})
 public class AgrotisTesteApplication {
 
 	public static void main(String[] args) {

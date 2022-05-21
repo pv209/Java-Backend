@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -11,23 +12,36 @@ public class User {
 	@Id@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
-	@ManyToOne
+	@ManyToOne @JoinColumn(name = "infoProp_id")
 	private infoPropriedade infoPropriedade;
 	private String cnpj;
-	@ManyToOne
+	@ManyToOne @JoinColumn(name = "laboratorio_id")
 	private Laboratorio laboratorio;
 	private String observacoes;
 	
-	public User(String nomeUsuario, String cnpj, String observacao) {
+	public User(String nomeUsuario, String cnpj,infoPropriedade info,Laboratorio lab, String observacao) {
+		this.laboratorio=lab;
+		this.infoPropriedade = info;
 		this.nome=nomeUsuario;
 		this.cnpj=cnpj;
 		this.observacoes=observacao;
+	}
+	public void User1(String nome, String cnpj, agrotisTeste.agrotisTeste.Model.infoPropriedade info, Laboratorio lab, String observacao) {
+		this.laboratorio=lab;
+		this.infoPropriedade = info;
+		this.nome=nome;
+		this.cnpj=cnpj;
+		this.observacoes=observacao;
+		
+	}
+	public User() {
+		
 	}
 	
 	public void setId(Long id) {
 		this.id=id;
 	}
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 	public void setNome(String nome) {
@@ -42,6 +56,7 @@ public class User {
 	}
 	
 	public agrotisTeste.agrotisTeste.Model.infoPropriedade getInfoPropriedade() {
+
 		return infoPropriedade;
 	}
 	

@@ -4,11 +4,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="infoPropriedade")
 public class infoPropriedade {
 	@Id@GeneratedValue(strategy= GenerationType.IDENTITY)
-	public long id;
+	public Long id;
 	public String nome;
 	
 	public infoPropriedade() {
@@ -16,10 +18,10 @@ public class infoPropriedade {
 	public infoPropriedade(String nome) {
 		this.nome=nome;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id=id;
 	}
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 	public void setNome(String nome) {

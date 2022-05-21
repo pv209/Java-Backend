@@ -1,11 +1,10 @@
 package agrotisTeste.agrotisTeste.Controller;
 
-import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
+import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.bind.annotation.RestController;
 
 import agrotisTeste.agrotisTeste.Model.Formulario;
 import agrotisTeste.agrotisTeste.Model.Laboratorio;
@@ -24,7 +23,7 @@ import agrotisTeste.agrotisTeste.Repository.LabRepo;
 import agrotisTeste.agrotisTeste.Repository.PropRepo;
 import agrotisTeste.agrotisTeste.Repository.UserRepo;
 
-@Controller
+@RestController
 public class UserController {
 	@Autowired
 	private PropRepo propRepo;
@@ -35,32 +34,43 @@ public class UserController {
 	@RequestMapping("/info")
 	@ResponseBody
 	public List<infoPropriedade>listaInfo(){
-		infoPropriedade info = new infoPropriedade("rural");
-		return Arrays.asList(info,info,info);
+		List<infoPropriedade> info = propRepo.findAll();
+		return info;
 	}
 	
 	@RequestMapping("/lab")
 	@ResponseBody
-	public List<Laboratorio>lista(){
-		Laboratorio lab = new Laboratorio("rural");
-		return Arrays.asList(lab,lab,lab);
+	public List<Laboratorio>listaLab(){
+		List<Laboratorio> lab = labRepo.findAll();
+		return lab;
+	}
+	
+	@RequestMapping("/user")
+	@ResponseBody
+	public List<User>listaUser(){
+		List<User> user = userRepo.findAll();
+		return user;
 	}
 	
 	@PostMapping("/salvar")
-	public void cadastrar(@RequestBody Formulario form) {
-		User usuario = form.converterUser();
-		userRepo.save(usuario);
+	public Formulario cadastrar(@RequestBody Formulario form) {
 		infoPropriedade info = form.converterInfo();
 		propRepo.save(info);
 		Laboratorio lab = form.covertLab();
 		labRepo.save(lab);
+		
+		User usuario = form.convertUser(propRepo,labRepo);
+		System.out.println(usuario);
+		userRepo.save(usuario);
+		return form.addNewUser(form);
+
 		
 		
 	}
 	
 	@PutMapping("/atualizar/{id}")
 	public void atualizar(@RequestBody Formulario form) {
-		User usuario = form.converterUser();
+		User usuario = form.convertUser(propRepo,labRepo);
 		userRepo.save(usuario);
 		infoPropriedade info = form.converterInfo();
 		propRepo.save(info);
